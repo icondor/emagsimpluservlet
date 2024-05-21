@@ -16,7 +16,19 @@ public class ServletListUsersAdminPurposes extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) {
 
+        boolean isIn= Utility.isLoggedIn(request, resp);
+        if(!isIn) {
+            PrintWriter pw = null;
+            try {
+                pw = resp.getWriter();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
+            pw.println("Acces permis doar userilor logati");
+            pw.close();
+            return;
+        }
 
         DbUsersOperations db = new DbUsersOperations();
 

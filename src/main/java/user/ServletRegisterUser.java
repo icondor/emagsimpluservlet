@@ -14,6 +14,22 @@ public class ServletRegisterUser extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) {
 
+    boolean isIn= Utility.isLoggedIn(request, resp);
+        if(isIn) {
+
+            PrintWriter pw = null;
+            try {
+                pw = resp.getWriter();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            pw.println("Sunteti deja logat. Faceti intai logout");
+            pw.close();
+            return;
+        }
+
+
         String un = request.getParameter("username");
         String pwd = request.getParameter("userpwd");
         User u = new User(un,pwd);
